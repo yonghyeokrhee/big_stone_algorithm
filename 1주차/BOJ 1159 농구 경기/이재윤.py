@@ -1,3 +1,6 @@
+// 첫 글자끼리 비교를 해야 한다
+// 문자열을 빠져나올 때, 마지막 케이스를 반드시 포함시켜야 한다 
+
 ## template
 
 N = int(input())
@@ -12,8 +15,7 @@ arrLen = len(arr)
 cnt = 1
 ans = "" 
 
-for i in range(1, arrLen):
-    // 첫 글자끼리 비교를 해야 한다 
+for i in range(1, arrLen): 
     if arr[i-1][0] == arr[i][0]:
         cnt += 1
     else:
@@ -21,7 +23,6 @@ for i in range(1, arrLen):
             ans += arr[i-1][0]
         cnt = 1 
 
-// 이 케이스를 반드시 포함시켜야 한다 
 if cnt >= 5:
     ans += arr[arrLen-1][0]
               
