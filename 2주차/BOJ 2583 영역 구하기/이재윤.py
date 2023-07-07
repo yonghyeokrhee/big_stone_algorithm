@@ -1,3 +1,5 @@
+// N과 M 그리고 입력값들을 잘 배열하는 것이 중요하다 
+
 import sys
 sys.setrecursionlimit(10**6)
 
