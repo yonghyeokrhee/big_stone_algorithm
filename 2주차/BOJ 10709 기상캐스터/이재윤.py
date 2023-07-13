@@ -1,5 +1,3 @@
-
-
 H, W = map(int, input().split())
 
 board = []
