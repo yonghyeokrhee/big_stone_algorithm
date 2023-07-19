@@ -1,15 +1,12 @@
-N, d = 5, 4
+import sys
+sys.setrecursionlimit(10000)
 
-# arr = [[0 for j in range(N)] for i in range(N)]
-arr = [
-    [6, 8, 2, 6, 2],
-    [3, 2, 3, 4, 6],
-    [6, 7, 3, 3, 2],
-    [7, 2, 5, 3, 6],
-    [8, 9, 5, 2, 7],
-]
+N = int(input())
 
+arr = []
 
+for _ in range(N):
+    arr.append(list(map(int, input().split())))
 
 def DFS(x, y, d):
     # 방문을 기록
@@ -28,20 +25,15 @@ def DFS(x, y, d):
             DFS(nx, ny, d)
 
 
-answer = 0
+answer = 1
 for d in range(1, 100):
-    print("depth is: ",d )
     ret = 0
     visited = [[0 for j in range(N)] for i in range(N)]
     for i in range(N):
         for j in range(N):
             if arr[j][i] > d and not visited[j][i]:
                 ret += 1
-                print("DFS started")
                 DFS(i, j, d)
-        print("safe region is: ", ret)
     answer = max(answer, ret)
 
 print(answer)
-
-# 모든 강수량 경우에 대해서 d를 테스트 해야 함 (d : 2 ~ 100)
