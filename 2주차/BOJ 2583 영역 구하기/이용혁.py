@@ -1,27 +1,22 @@
-## 먼저 인풋 받아서 행렬에 직사각형을 표시하기
-
-## 그런 다음에 빈 영역의 크기를 구분하여 계산한다.
-
 import sys
-sys.setrecursionlimit(10000)
 
-M, N, K = 5, 7, 3
+sys.setrecursionlimit(100000)
+
+M, N, K = map(int, input().split())
+
 loc = [[0, 2, 4, 4], [1, 1, 2, 5], [4, 0, 6, 2]]
 
 arr = [[0] * N for _ in range(M)]
 
-for l in loc:
-    x1, y1 = l[:2]
-    x2, y2 = l[2:]
+for _ in range(K):
+    param = list(map(int, input().split()))
+    x1, y1 = param[:2]
+    x2, y2 = param[2:]
     for xx in range(x1, x2):
         for yy in range(y1, y2):
-            arr[M-yy-1][xx] = 1
+            arr[M - yy - 1][xx] = 1
 
-for a in arr:
-    print(a)
-
-def DFS(x,y) -> int:
-
+def DFS(x, y) -> int:
     dy = [0, 1, 0, -1]
     dx = [-1, 0, 1, 0]
     ret = 1
@@ -34,6 +29,7 @@ def DFS(x,y) -> int:
         elif (arr[ny][nx] == 0) and (not visited[ny][nx]):
             ret += DFS(nx, ny)
     return ret
+
 
 visited = [[0] * N for _ in range(M)]
 
