@@ -1,16 +1,5 @@
-# N = int(input())
-# arr = [list(map(int,input())) for _ in range(N)]
-N = 8
-arr = \
-    [[1, 1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0, 0],
-     [0, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 1, 1, 1, 0, 0],
-     [1, 1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0, 0],
-     [1, 1, 1, 1, 0, 0, 1, 1], [1, 1, 1, 1, 0, 0, 1, 1]]
-
-for a in arr:
-    print(a)
-
-
+N = int(input())
+arr = [list(map(int,input())) for _ in range(N)]
 
 def quard(x, y, N):
     """
@@ -36,4 +25,4 @@ def quard(x, y, N):
         return answer
 
 
-print(quard(0, 0, 8))
+print(quard(0, 0, N))
