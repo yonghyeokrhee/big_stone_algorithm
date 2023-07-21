@@ -7,7 +7,6 @@ from collections import deque
 N, L, R = map(int, input().split())
 
 board = []
-line = [[[[False for _ in range(N)] for _ in range(N)] for _ in range(N)] for _ in range(N)]
 visited = [[0]*N for _ in range(N)]
 
 sum = 0
@@ -18,26 +17,6 @@ dy = [0, 0, -1, 1]
 for i in range(N):
     tmp = list(map(int, input().split()))
     board.append(tmp)
-    
-
-def dfs(x, y, order):
-    
-    global cnt
-    global sum 
-    
-    if visited[x][y] == 0:
-        cnt += 1 
-        sum += board[x][y]
-        visited[x][y] = order
-    
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-        
-        if 0<=nx and nx < N and 0<=ny and ny < N and line[x][y][nx][ny] == True:
-            line[x][y][nx][ny] = False
-            dfs(nx, ny, order)
-            
             
 def bfs(x, y, order):
     
