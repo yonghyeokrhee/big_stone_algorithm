@@ -5,14 +5,11 @@ arr = list(map(int, input().split()))
 
 tree = [deque() for _ in range(N)]
 for i, a in enumerate(arr):
-    print(f'Node {i} has parent {a}')
     if a == -1:
         root = i
     else:
         tree[a].append(i)
-print(tree)
 cutter = int(input())
-
 edges = [0] * N
 def dfs(node):
     # 어떤 NODE를 제거했을 때 계속 들어가서 자신의 아래쪽으로 존재하는 모든 edge노드를 계산해두는 함수
@@ -28,13 +25,14 @@ def dfs(node):
             edges[node] += dfs(c)
         return edges[node]
 dfs(root)
-print(edges)
 
 dups = Counter(edges)
 
 if cutter == root:
     print(0)
-elif dups[edges[cutter]]>1:
-    print(edges[root] - edges[cutter] + 1)
+elif edges[root] == edges[cutter]:
+    print(1)
+elif edges[cutter] == edges[arr[cutter]]:
+    print(edges[root] - edges[cutter]+1)
 else:
     print(edges[root] - edges[cutter])
