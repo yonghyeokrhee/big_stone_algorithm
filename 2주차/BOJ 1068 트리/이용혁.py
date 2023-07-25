@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, Counter
 
 N = int(input())
 arr = list(map(int, input().split()))
@@ -7,9 +7,11 @@ tree = [deque() for _ in range(N)]
 for i, a in enumerate(arr):
     print(f'Node {i} has parent {a}')
     if a == -1:
-        continue
-    tree[a].append(i)
+        root = i
+    else:
+        tree[a].append(i)
 print(tree)
+cutter = int(input())
 
 edges = [0] * N
 def dfs(node):
@@ -25,5 +27,14 @@ def dfs(node):
             c = childs.popleft()
             edges[node] += dfs(c)
         return edges[node]
-dfs(0)
-print(edges[0] - edges[int(input())])
+dfs(root)
+print(edges)
+
+dups = Counter(edges)
+
+if cutter == root:
+    print(0)
+elif dups[edges[cutter]]>1:
+    print(edges[root] - edges[cutter] + 1)
+else:
+    print(edges[root] - edges[cutter])
