@@ -21,6 +21,7 @@ def BFS(x,y)->int:
 
     while q:
         x,y = q.popleft()
+        visited[y][x] = 1  # 이거 안해줘서 틀렸음.
         for i in range(4):
             ny = y + dy[i]
             nx = x + dx[i]
