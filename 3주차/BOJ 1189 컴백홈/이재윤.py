@@ -1,3 +1,5 @@
+// 첫 지점을 방문 처리해줘야 한다
+
 R, C, K = map(int, input().split())
 
 board = [] 
