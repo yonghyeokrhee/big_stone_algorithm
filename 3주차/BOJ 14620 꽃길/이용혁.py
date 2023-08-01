@@ -13,7 +13,7 @@ def check(x,y):
     for i in range(4):
         ny = y + dy[i]
         nx = x + dx[i]
-        if (ny<=0) or (nx<=0) or (ny >= N) or (nx >= N) or visited[ny][nx]:
+        if (ny<0) or (nx<0) or (ny >= N) or (nx >= N) or visited[ny][nx]:
             return 0
     else:
         return 1 # able to set
@@ -58,7 +58,7 @@ def flower(num,hap):
 
     for j in range(N):
         for i in range(N):
-            if j <= 0 or i <= 0 or j >= N - 1 or i >= N - 1:
+            if j < 0 or i < 0 or j >= N - 1 or i >= N - 1:
                 continue
             else:
                 if check(i, j):
