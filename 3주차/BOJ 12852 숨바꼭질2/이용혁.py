@@ -1,42 +1,34 @@
 from collections import deque
 
 N, K = map(int, input().split())
-dist = [0] * 400001
-visited = [0] * 400001
-cnt = [0] * 400001
+visited = [0] * 100001
+cnt = [0] * 100001
 
 
 def BFS(x):
-    depth = 0
     q: deque = deque()
     q.append(x)
     while q:
-        for i in range(len(q.copy())):
-            here = q.popleft()
-            if here == K:
-                print(here)
-                return depth, cnt[here]
-            if 0<= here <= 200000 and not visited[here]:
-                print("this time going: ", here, " on depth: ", depth)
-                visited[here] = True
-                q.append(here + 1)
-                dist[here+1] = dist[here] + 1
-                cnt[here+1] += 1
-                q.append(here-1)
-                dist[here-1] = dist[here] + 1
-                cnt[here-1] += 1
-                q.append(here * 2)
-                dist[here*2] = dist[here] + 1
-                cnt[here*2] += 1
-        depth +=1
+        here = q.popleft()
+        if here == K:
+            return visited[here], cnt[here]
+
+        for there in [here+1,here-1,here*2]:
+            if 0<= there <= 100000 and not visited[there]:
+                visited[there] += visited[here] +1
+                cnt[there] += cnt[here]
+                q.append(there)
+            elif 0<= there <= 100000 and visited[there] == visited[here] + 1:
+                cnt[there] += cnt[here]
 
 
-
+visited[N] = 1
+cnt[N] = 1
 
 if N == K:
     print(0)
     print(1)
 else:
     d, c = BFS(N)
-    print(d)
+    print(d-1)
     print(c)
