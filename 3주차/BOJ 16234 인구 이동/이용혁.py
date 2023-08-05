@@ -1,4 +1,4 @@
-#시간 초과 문제를 해결 하기 위해서 최대한 for 문을 효율적으로 사용하자.
+#시간 초과 문제 아직 해결 못함.
 
 from collections import deque
 N,L,R = map(int,input().split())
@@ -14,7 +14,6 @@ def check(ny,nx,y,x):
         return True
     else:
         return False
-
 
 
 def BFS(x,y)-> None:
@@ -41,38 +40,42 @@ def BFS(x,y)-> None:
             if ny< N and nx < N and nx >= 0 and ny >= 0 and not c[ny][nx] and check(ny,nx,y,x):
                 v[ny][nx] = 1
                 c[ny][nx] = 1
+                q.append((nx,ny))
                 tot += arr[ny][nx]
                 cnt += 1
-                q.append((nx,ny))
-                print(f"appending this location: ({nx},{ny})", arr[ny][nx])
 
     flag = 0
-
-    avg = int(tot / cnt)
-    print("total is: ",tot)
-    print("num of united country is: ", cnt)
-    print("average is: ", avg)
-
-    #개선할 수 있는 부분을 찾았다.  (avg 계산하는 거 바꾸기)
-    for j in range(N):
-        for i in range(N):
-            if c[j][i] == 1 and arr[j][i] != avg:
-                flag = 1
-                arr[j][i] = avg
+    if cnt > 1:
+        avg = int(tot / cnt)
+        for j in range(N):
+            for i in range(N):
+                if c[j][i] == 1 and arr[j][i] != avg:
+                    flag = 1
+                    imigration[j][i] = avg
 
     return flag
+
+
 flag = 1
 ans  = 0
 while flag:
     ret = 0
     v = [[0] * N for _ in range(N)]
+    imigration = [[0] * N for _ in range(N)]
+    # 연합국 조사하기
     for j in range(N):
         for i in range(N):
             if not v[j][i]:
                 ret = max(BFS(i,j),ret)
-    for ar in arr:
-        print(ar)
+
+    # 이민 하기
+    for j in range(N):
+        for i in range(N):
+            if imigration[j][i]:
+                arr[j][i] = imigration[j][i]
+
     flag = 1 if ret == 1 else 0
+
     if flag:
         ans += 1
 print(ans)
