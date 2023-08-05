@@ -38,7 +38,7 @@ def BFS(x,y)-> None:
 
     # BFS 다 돌았으면 하나로 이어진 면적이 나올 것이다. 그것은 v 배열에 기록되었을 것이다.
     # v 배열에 1로 기록이 되어 있다면 arr 배열의 값들을 평균으로 바꾸어준다.
-
+    flag = 0 # 아무런 값이 바뀌지 않은 것이 초기 값
     tot = 0
     cnt = 0
     for j in range(N):
@@ -50,15 +50,15 @@ def BFS(x,y)-> None:
     print("averaged is : ", avg)
     for j in range(N):
         for i in range(N):
-            if v[j][i] == 1:
-                arr[j][i] = avg # 값을 변환해준다.
-    # 한번이라도 변환이 있었다면 기록을 해준다.
-    flag = 1 if cnt > 1 else 0 # 맞지 않는 표시이다.
+            if v[j][i] == 1 and arr[j][i] != avg:
+                arr[j][i] = avg # 값이 바뀔 필요가 있는 경우에만 값을 변환해준다.
+                flag = 1 # 바뀌었으므로 1로 둔다.
+    # 바뀐 부분이 있었는지를 확인한다.
 
     return flag
     # 모두 변경 완료.
 flag = 1
-while flag:
+while flag: # 더 이상 값이 변경되지 않을 때까지 작업을 계속 해준다.
     cnt = 0
     ret = 0
     v = [[0] * N for _ in range(N)]
@@ -70,4 +70,4 @@ while flag:
     print(arr)
     flag = 1 if ret == 1 else 0
     cnt += 1
-# 이제 이틀차에 걸친 인구이동 작업을 계산해야 한다.
+print(cnt)
