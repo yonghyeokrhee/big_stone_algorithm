@@ -1,4 +1,5 @@
-# 변수 이름을 여러곳에서 섞어서 잘 못 사용하면 문제를 발생시킬 수 있다.
+#시간 초과 문제를 해결 하기 위해서 최대한 for 문을 효율적으로 사용하자.
+
 from collections import deque
 N,L,R = map(int,input().split())
 
@@ -23,57 +24,54 @@ def BFS(x,y)-> None:
     """
     q=deque()
     q.append((x,y))
-    c = [[0] * N for _ in range(N)] # visited랑 별개로 나라를 표현할 수 있는 array 하나 더 있어야 한다는 것을 생각했다.
+    c = [[0] * N for _ in range(N)]
 
     v[y][x] = 1
     c[y][x] = 1
 
-
     dy = [-1,1,0,0]
     dx = [0,0,-1,1]
-
+    tot = arr[y][x]
+    cnt = 1
     while q:
         x, y = q.popleft()
         for i in range(4):
             ny = y + dy[i]
             nx = x + dx[i]
-            if ny< N and nx < N and nx >= 0 and ny >= 0 and not v[ny][nx] and check(ny,nx,y,x):
+            if ny< N and nx < N and nx >= 0 and ny >= 0 and not c[ny][nx] and check(ny,nx,y,x):
                 v[ny][nx] = 1
-                c[ny][nx] = 1 # 같은 나라로 표기하기
-                q.append((nx,ny))
-
-    # BFS 다 돌았으면 하나로 이어진 면적이 나올 것이다. 그것은 v 배열에 기록되었을 것이다.
-    # v 배열에 1로 기록이 되어 있다면 arr 배열의 값들을 평균으로 바꾸어준다.
-    flag = 0 # 아무런 값이 바뀌지 않은 것이 초기 값
-    tot = 0
-    cnt = 0
-    for j in range(N):
-        for i in range(N):
-            if c[j][i] == 1: # 만약에 한 나라로 이어진 면적이 있으면 (모두 같은 값이 되어버리면 어떻게 되는건지 처리해야 한다)
-                tot += arr[j][i]
+                c[ny][nx] = 1
+                tot += arr[ny][nx]
                 cnt += 1
+                q.append((nx,ny))
+                print(f"appending this location: ({nx},{ny})", arr[ny][nx])
+
+    flag = 0
+
     avg = int(tot / cnt)
-    print("averaged is : ", avg)
+    print("total is: ",tot)
+    print("num of united country is: ", cnt)
+    print("average is: ", avg)
+
+    #개선할 수 있는 부분을 찾았다.  (avg 계산하는 거 바꾸기)
     for j in range(N):
         for i in range(N):
             if c[j][i] == 1 and arr[j][i] != avg:
-                flag = 1 # 바뀌었으므로 1로 둔다.
-                arr[j][i] = avg # 값이 바뀔 필요가 있는 경우에만 값을 변환해준다.
-    # 바뀐 부분이 있었는지를 확인한다.
+                flag = 1
+                arr[j][i] = avg
 
     return flag
-    # 모두 변경 완료.
 flag = 1
 ans  = 0
-while flag: # 더 이상 값이 변경되지 않을 때까지 작업을 계속 해준다.
+while flag:
     ret = 0
     v = [[0] * N for _ in range(N)]
     for j in range(N):
         for i in range(N):
-            if not v[j][i]: # 방문한 곳이 아니라면 BFS를 시작하자.
-                ret = max(BFS(i,j),ret) ## 좌상단에서부터 우측으로 BFS를 탐색하기 시작하자.
-    # 이 작업이 모두 끝났다면 1일차에 있는 인구이동이 마무리 되는 것이다.
-    print(arr)
+            if not v[j][i]:
+                ret = max(BFS(i,j),ret)
+    for ar in arr:
+        print(ar)
     flag = 1 if ret == 1 else 0
     if flag:
         ans += 1
