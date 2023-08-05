@@ -22,7 +22,11 @@ def BFS(x,y)-> None:
     """
     q=deque()
     q.append((x,y))
+    c = [[0] * N for _ in range(N)] # visited랑 별개로 나라를 표현할 수 있는 array 하나 더 있어야 한다는 것을 생각했다.
+
     v[y][x] = 1
+    c[y][x] = 1
+
 
     dy = [-1,1,0,0]
     dx = [0,0,-1,1]
@@ -34,6 +38,7 @@ def BFS(x,y)-> None:
             nx = x + dx[i]
             if ny< N and nx < N and nx >= 0 and ny >= 0 and not v[ny][nx] and check(ny,nx,y,x):
                 v[ny][nx] = 1
+                c[ny][nx] = 1 # 같은 나라로 표기하기
                 q.append((nx,ny))
 
     # BFS 다 돌았으면 하나로 이어진 면적이 나올 것이다. 그것은 v 배열에 기록되었을 것이다.
@@ -43,16 +48,16 @@ def BFS(x,y)-> None:
     cnt = 0
     for j in range(N):
         for i in range(N):
-            if v[j][i] == 1: # 만약에 이어진 면적이 있으면 (모두 같은 값이 되어버리면 어떻게 되는건지 처리해야 한다)
+            if c[j][i] == 1: # 만약에 한 나라로 이어진 면적이 있으면 (모두 같은 값이 되어버리면 어떻게 되는건지 처리해야 한다)
                 tot += arr[j][i]
                 cnt += 1
     avg = int(tot / cnt)
     print("averaged is : ", avg)
     for j in range(N):
         for i in range(N):
-            if v[j][i] == 1 and arr[j][i] != avg:
-                arr[j][i] = avg # 값이 바뀔 필요가 있는 경우에만 값을 변환해준다.
+            if c[j][i] == 1 and arr[j][i] != avg:
                 flag = 1 # 바뀌었으므로 1로 둔다.
+                arr[j][i] = avg # 값이 바뀔 필요가 있는 경우에만 값을 변환해준다.
     # 바뀐 부분이 있었는지를 확인한다.
 
     return flag
