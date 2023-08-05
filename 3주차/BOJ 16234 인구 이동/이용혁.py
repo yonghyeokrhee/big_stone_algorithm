@@ -1,3 +1,4 @@
+# 변수 이름을 여러곳에서 섞어서 잘 못 사용하면 문제를 발생시킬 수 있다.
 from collections import deque
 N,L,R = map(int,input().split())
 
@@ -63,8 +64,8 @@ def BFS(x,y)-> None:
     return flag
     # 모두 변경 완료.
 flag = 1
+ans  = 0
 while flag: # 더 이상 값이 변경되지 않을 때까지 작업을 계속 해준다.
-    cnt = 0
     ret = 0
     v = [[0] * N for _ in range(N)]
     for j in range(N):
@@ -74,5 +75,6 @@ while flag: # 더 이상 값이 변경되지 않을 때까지 작업을 계속 �
     # 이 작업이 모두 끝났다면 1일차에 있는 인구이동이 마무리 되는 것이다.
     print(arr)
     flag = 1 if ret == 1 else 0
-    cnt += 1
-print(cnt)
+    if flag:
+        ans += 1
+print(ans)
