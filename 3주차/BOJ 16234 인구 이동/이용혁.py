@@ -34,6 +34,8 @@ def BFS(x,y)-> None:
     cnt = 1
     while q:
         x, y = q.popleft()
+        united.append([x,y]) # 연합국들을 여기에 저장해둔다. for 문 최소화하기 위해서.
+        # 연합국들은 다음 round에서는 조사할 필요가 없다. 연합국들은 주변국들에 의해서만 병합될 뿐이기 때문이다.
         for i in range(4):
             ny = y + dy[i]
             nx = x + dx[i]
@@ -45,34 +47,37 @@ def BFS(x,y)-> None:
                 cnt += 1
 
     flag = 0
-    if cnt > 1:
+    if cnt == 1:
+        united.pop() # 하나 짜리 였다면 그냥 없애버리는게 맞다. 왜냐면 united는 전체 BFS에 대한 array이기 때문이다.
+    elif cnt > 1: # 연합국이 두개 이상이라면
+        flag = 1
         avg = int(tot / cnt)
-        for j in range(N):
-            for i in range(N):
-                if c[j][i] == 1 and arr[j][i] != avg:
-                    flag = 1
-                    imigration[j][i] = avg
+        for _ in range(cnt):
+            mig.append(avg)
 
     return flag
 
-
 flag = 1
 ans  = 0
+
 while flag:
+
     ret = 0
     v = [[0] * N for _ in range(N)]
+
     imigration = [[0] * N for _ in range(N)]
-    # 연합국 조사하기
+    # 연합국 조사하기 -> 조사결과 좌표와 인구 저장해두자 (for 하나 더 줄일 수 있음)
+    united = []
+    mig = []
     for j in range(N):
         for i in range(N):
             if not v[j][i]:
                 ret = max(BFS(i,j),ret)
 
     # 이민 하기
-    for j in range(N):
-        for i in range(N):
-            if imigration[j][i]:
-                arr[j][i] = imigration[j][i]
+    for u,m in list(zip(united,mig)): #반드시 연합국이 있는 나라들에 대해서만 연산해야 한다. united와 mig의 길이가 같아야 한다.
+        i, j = u
+        arr[j][i] = m
 
     flag = 1 if ret == 1 else 0
 
