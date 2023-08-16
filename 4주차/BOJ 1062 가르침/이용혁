@@ -1,0 +1,12 @@
+tc = 'antarctica'
+
+arr = [0] * 26
+
+for s in ['a','n','t','i','c']:
+    arr[ord(s)-97]=1
+
+print(arr)
+
+for c in tc:
+    if not arr[ord(c)-97]:
+        print("Fail")
