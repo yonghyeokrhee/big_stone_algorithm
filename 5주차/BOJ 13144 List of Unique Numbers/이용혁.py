@@ -16,7 +16,7 @@ for j in range(n):
                 break
         else:
             cnt += (i-j) # 겹치지 않고 이동한 최장 거리를 기록한다.
-            mem = [0] * 100001 # 10만 이하에 해당하는 수를 저장하기. 단, break가 되면 갱신한다.
+            mem[arr[j]] = 0  # 10만 이하에 해당하는 수를 저장하기. 단, break가 되면 갱신한다.
             break
     if flag:
         break
