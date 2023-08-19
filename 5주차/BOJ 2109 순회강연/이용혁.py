@@ -15,7 +15,6 @@ for k in keys:
     if len(lecs)==1 and k-1>=0: # size가 하나뿐이면 우선 그자리에 넣는다.
         q.put(lecs[-1])
     else: # size가 하나 이상이면 앞쪽 일정과 비교하여 강연을 갈 수 있다. q가 이미 꽉 차 있다면 q에다가 집어넣고 가장 작은 것을 뺄 수 있다.
-        lecs.sort(reverse=True)
         i = 0
         while True: #mem[k-1] < lecs[i] and k-1>=0:
             if q.qsize() < k:
