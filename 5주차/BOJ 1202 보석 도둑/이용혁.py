@@ -16,6 +16,6 @@ for i in b: # 용량이 작은 가방부터
             heapq.heappush(temp_q, (-a[1], a[1])) # 가방에 넣어둔다. 최대힙으로 사용하기 위해서 - 값으로 넣자.
     if temp_q:
         answer += heapq.heappop(temp_q)[1] # 가장 비싼 보석을 빼서 더한다.
-    if not jew:
+    elif not jew:
         break
 print(answer)
