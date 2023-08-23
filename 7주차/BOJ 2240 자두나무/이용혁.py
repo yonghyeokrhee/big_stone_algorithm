@@ -1,37 +1,20 @@
 t, w = map(int, input().split())
 arr = [int(input()) for _ in range(t)]
 
-dp = [0] * (t +1)
+dp = [[0] * (w+1) for _ in range(t+1)]
+arr.insert(0,0)
+for i in range(t+1):
 
+    if (arr[i] == 1):
+        dp[i][0] = dp[i-1][0] + 1
+    else:
+        dp[i][0] = dp[i-1][0]
 
-for i in range(t):
+    for j in range(1,w+1):
+        if (arr[i]==2 and j % 2 == 1) or ( arr[i] == 1 and j % 2 == 0):
+            dp[i][j] = max(dp[i-1][j-1], dp[i-1][j]) + 1
 
+        else:
+            dp[i][j] = max(dp[i-1][j-1], dp[i-1][j])
 
-
-
-
-
-def dfs(arr,ind,k,w)->int:
-    """
-
-    :param arr:
-    :param ind:
-    :param k: 자두가 서 있는 위치
-    :return:
-    """
-    ret = 0
-    # base case:
-    if ind == len(arr)-1:
-        dp[ind] =
-        return 1 if -int(k)+2 == arr[ind] else 0
-    if w == 0: #자두는 더 이상 움직일 수 없음.
-        ret += dfs(arr[:ind], ind + 1, k, w)
-
-    if -int(k)+2 == arr[ind]: # 자두가 서 있는 자리에 자두가 떨어진다.
-        ret += 1
-    else:  # 자두 자리에 떨어지지 않아. 이동하든 안하든 선택해야 함.
-        ret += dfs(arr,ind+1,-k , w-1) + dfs(arr, ind+2, k, w) # 이동하고 cnt 하나 하자.
-
-    return ret
-
-print(dfs(arr,0,True, w))
+print(max(dp[t]))
