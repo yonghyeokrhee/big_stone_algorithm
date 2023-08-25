@@ -39,15 +39,18 @@ def rotation(r, c, s):
         arr[n][k] = elem
 
 # rotation 반복하기 dfs 로 들어간다?
-
+mn = 987654321
 for r, c, s in rots:
+    sub_mn = 987654321
     while s:
         ret = rotation(r, c, s)
         s -= 1
-
-    mn = 987654321
     for ar in arr:
         sarr = sum(ar)
-        if mn > sarr:
-            mn = sarr
+        if sub_mn > sarr:
+            sub_mn = sarr
+
+
+
+
 print(mn)
