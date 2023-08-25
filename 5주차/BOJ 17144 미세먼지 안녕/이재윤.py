@@ -1,3 +1,4 @@
+// 1시간 40분
 
 R, C, T = map(int, input().split())
 
