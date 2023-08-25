@@ -5,7 +5,7 @@ N, M, K = map(int, input().split())
 arr = [[*map(int, input().split())] for _ in range(N)]
 rots = [[*map(int, input().split())] for _ in range(K)]
 
-def rotation(r, c, s):
+def rotation(r, c, s, rot):
     y = r - s - 1
     x = c - s - 1
     ey = r + s - 1
@@ -23,7 +23,11 @@ def rotation(r, c, s):
         q.append(arr[n][k])
 
     # 돌리기
-    q.appendleft(q.pop())
+    if rot:
+        q.appendleft(q.pop())
+    else:
+        q.append(q.popleft())
+
     # 회전 기록하여 마치기
     for i in range(x,ex+1):
         elem = q.popleft()
@@ -38,19 +42,40 @@ def rotation(r, c, s):
         elem = q.popleft()
         arr[n][k] = elem
 
-# rotation 반복하기 dfs 로 들어간다?
-mn = 987654321
-for r, c, s in rots:
-    sub_mn = 987654321
+def do_rotate(r,c,s,rot):
     while s:
-        ret = rotation(r, c, s)
+        rotation(r,c,s,rot)
         s -= 1
-    for ar in arr:
-        sarr = sum(ar)
-        if sub_mn > sarr:
-            sub_mn = sarr
 
+# rotation 진행 순열을 만든다.
+sub_mn = 987654321
+answer = []
+def dfs(rots):
+    """
+    어레이의 최소합 *A를 구하는 함수  (*A 연산은 문제의 정의에 따른다)
+    :param rots: rotation 좌표가 들어 있는 어레이
+    :return: 어레이의 최소합 *A
+    """
+    global sub_mn
+    if len(rots) == 0:
+        for ar in arr:
+            sarr = sum(ar)
+            if sub_mn > sarr:
+                sub_mn = sarr
+        answer.append(sub_mn)
 
+    for e in rots:
+        # print("this time starting array is: ", rots)
+        # print("I picked: ", e)
+        next_rots = rots[:]
 
+        # print("this time rotation is : ", e)
+        next_rots.remove(e)
+        r,c,s = e
+        do_rotate(r,c,s,True)
+        dfs(next_rots)
+        do_rotate(r,c,s,False)
 
-print(mn)
+if __name__ == "__main__":
+    dfs(rots)
+    print(min(answer))
