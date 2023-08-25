@@ -47,7 +47,6 @@ def do_rotate(r,c,s,rot):
         rotation(r,c,s,rot)
         s -= 1
 
-# rotation 진행 순열을 만든다.
 sub_mn = 987654321
 answer = []
 def dfs(rots):
@@ -65,11 +64,7 @@ def dfs(rots):
         answer.append(sub_mn)
 
     for e in rots:
-        # print("this time starting array is: ", rots)
-        # print("I picked: ", e)
         next_rots = rots[:]
-
-        # print("this time rotation is : ", e)
         next_rots.remove(e)
         r,c,s = e
         do_rotate(r,c,s,True)
