@@ -24,9 +24,9 @@ def rotation(r, c, s, rot):
 
     # 돌리기
     if rot:
-        q.appendleft(q.pop())
+        q.rotate(1)
     else:
-        q.append(q.popleft())
+        q.rotate(-1)
 
     # 회전 기록하여 마치기
     for i in range(x,ex+1):
