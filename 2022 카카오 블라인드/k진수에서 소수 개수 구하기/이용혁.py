@@ -1,3 +1,4 @@
+import math
 def numberToBase(n, b):
     if n == 0:
         return [0]
@@ -7,24 +8,22 @@ def numberToBase(n, b):
         n //= b
     return ''.join(map(str,digits[::-1]))
 
-def check_prime(n):
-    if n == 1:
-        return False
-    elif n == 2:
-        return True
-    elif n % 2 == 0:
-        return False
-    else:
-        for i in range(3,n):
-            if n % i == 0:
+def check_prime(num):
+    if num > 1:
+        # Iterate from 2 to n / 2
+        for i in range(2, int(math.sqrt(num / 2)) + 1):
+            # If num is divisible by any number between
+            # 2 and n / 2, it is not prime
+            if (num % i) == 0:
                 return False
-
-    return True
+        else:
+            return True
+    else:
+        return False
 
 def solution(n, k):
     answer = 0
     basek = numberToBase(n,k)
-    print(basek)
     arr = basek.split('0')
     for i in arr:
         if len(i) > 0 and check_prime(int(i)):
@@ -33,5 +32,5 @@ def solution(n, k):
     return answer
 
 if __name__ == "__main__":
-    print(solution(100000000000000000000000,3))
+    print(solution(1000000,3))
     # print(solution(110011,10))
