@@ -4,12 +4,8 @@ arr = [deque([*map(int, list(input()))]) for _ in range(K)]
 n = int(input())
 rots = [[*map(int, input().split())] for _ in range(n)]
 
-for i in arr:
-    print(i)
-
 def go(elem,r,d):
     if r: # 오른쪽 확인
-        # print(elem)
         if elem+1 >= K or arr[elem][2] == arr[elem + 1][-2]:
             return False
         else:
@@ -23,8 +19,7 @@ def go(elem,r,d):
             arr[elem -1].rotate(-d)  # 반대쪽으로 회전 시킨다
 
 
-
-def do_rotate(elem,d)->bool:
+def do_rotate(elem,d):
     """조건을 확인하고 돌리는 함수"""
     go(elem-1, True, d) #오른쪽
     go(elem-1, False,d) #왼쪽
@@ -34,16 +29,7 @@ def do_rotate(elem,d)->bool:
 flag=0
 for elem, d in rots:
     flag += 1
-    print(f"this time {flag} is executed")
     do_rotate(elem,d)
-    print("========rotation ends =========")
-    for i in arr:
-        print(i)
-
-print("final rotataion")
-for i in arr:
-    print(i)
-print("answer is ....")
 
 answer = 0
 for i in arr:
