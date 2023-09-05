@@ -6,12 +6,5 @@ arr = sorted(arr, key = lambda x : x[0])
 
 line = 0
 for elem in arr:
-    if elem[0] >= line:
-        line_start = elem[0]
-        line = line_start + elem[1]
-
-    elif elem[0] < line:
-        line_start = line
-        line = line_start + elem[1]
-
+    line = max(line, elem[0]) + elem[1]
 print(line)
