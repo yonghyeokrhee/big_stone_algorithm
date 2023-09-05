@@ -16,13 +16,11 @@ def dfs(index,path,k):
 start, link = dfs(0,[],N//2)
 mn = 1e+10
 for s, l in zip(start, link):
-    temp = combinations(s,2)
     ss = 0
-    for i in temp:
+    for i in combinations(s,2):
         ss += arr[i[0]-1][i[1]-1] + arr[i[1]-1][i[0]-1]
-    temp = combinations(l,2)
     ls = 0
-    for i in temp:
+    for i in combinations(l,2):
         ls += arr[i[0]-1][i[1]-1] + arr[i[1]-1][i[0]-1]
 
     if abs(ss - ls) < mn:
