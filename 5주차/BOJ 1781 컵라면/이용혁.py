@@ -15,13 +15,11 @@ keys = sorted(list(mydict.keys()))
 for k in keys:
     lecs = mydict[k]
     i = 0
-    while True:
+    while i!= len(lecs):
         q.put(lecs[i])
         if q.qsize() > k:
             q.get()
         i += 1
-        if i == len(lecs):
-            break
 
 ret = 0
 for i in range(q.qsize()):
