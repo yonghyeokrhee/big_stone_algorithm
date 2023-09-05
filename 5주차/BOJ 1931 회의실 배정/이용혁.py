@@ -6,12 +6,11 @@ arr = sorted(arr, key = lambda x: (x[1],x[0]))
 
 line = cnt = 0
 for a in arr:
-    if line <= a[1] and line <= a[0]:
+    if line <= a[0]:
         line = a[1]
         cnt += 1
         print(a)
-    else:
-        if line > a[0]:
-            continue
+    elif line > a[0]:
+        continue
 
 print(cnt)
