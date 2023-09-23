@@ -15,11 +15,11 @@ def solution(places):
                     v = [[0] * 5 for _ in range(5)]
                     v[i][j] = 1
                     d = 0
-                    while q and answer[ind] and d < 2:
+                    while q and answer[ind]:
                         y, x = q.popleft()
-                        for i in range(4):
-                            ny = y + dy[i]
-                            nx = x + dx[i]
+                        for t in range(4):
+                            ny = y + dy[t]
+                            nx = x + dx[t]
                             if (
                                 ny >= 5
                                 or nx >= 5
@@ -28,14 +28,14 @@ def solution(places):
                                 or v[ny][nx]
                             ):
                                 continue
-                            elif p[y][x] =='O' and p[ny][nx] == "P":
+                            elif p[y][x] !='X' and p[ny][nx] == "P":
+                                #print(f"{(ny,nx)} is too close to {(i,j)} at place {ind}")
                                 answer[ind] = False
                                 break
                             else:
                                 v[ny][nx] == 1
-                                if p[ny][nx] == 'O':
+                                if p[ny][nx] == 'O' and abs(ny-i)+abs(nx-j)<2:
                                     q.append((ny, nx))
-                        d += 1
     return list(map(int,answer))
 
 tc = [
