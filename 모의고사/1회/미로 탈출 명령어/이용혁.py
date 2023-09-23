@@ -1,37 +1,51 @@
 import sys
 sys.setrecursionlimit(10**6)
 def solution(n, m, x, y, r, c, k):
-
-    s = (x,y)
-    e = (r,c)
-    answer_arr = []
-    dy = [1,0,0,-1]
-    dx = [0,-1,1,0]
-    dict = {0:'d',1:'l',2:'r',3:'u'}
-    answer = []
-    def dfs(loc,cnt):
-        if answer:
-            return
-        if cnt == k:
-            # print(answer_arr)
-            # print(loc)
-            if loc == e:
-                # print("arrive")
-                answer.append(answer_arr[:])
-                return
+    if (k - (abs(x-r) + abs(y-c))) % 2:
+        return "impossible"
+    dist = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if i == r-1 and j == c-1:
+                continue
             else:
-                return
-        # 가장 빠른 문자열을 무조건 선택한다.
+                dist[i][j] = abs(j-c+1) + abs(i-r+1)
+    for d in dist:
+        print(d)
+
+    dx = [1,0,0,-1]
+    dy = [0,-1,1,0]
+    dict = {0:'d',1:'l',2:'r',3:'u'} # debugging 용
+    answer  = []
+    def dfs(x,y, k):
+        # 만약 남은 거리가 남은 k와 같다면 종점으로 돌아와야 한다.
+        if dist[x-1][y-1] == k:
+            print("돌아온다")
+            return x, y, k
         for i in range(4):
-            ny = loc[0] + dy[i]
-            nx = loc[1] + dx[i]
-            if 0< ny <= n and 0< nx <= m:
-                answer_arr.append(i)
-                cnt += 1
-                loc = (ny, nx)
-                dfs(loc,cnt)
-                cnt -= 1
-                answer_arr.pop()
-    dfs(s,0)
-    return ''.join([dict[i] for i in answer[0]]) if answer else 'impossible'
-print(solution(3,4,2,3,3,1,5))
+            ny = y + dy[i]
+            nx = x + dx[i]
+            #print(f"next loc | row {nx}, col {ny}")
+            if 0 < nx <= n and 0 < ny <= m:
+             #   print("moving towards: ", dict[i])
+                answer.append(dict[i])
+                return dfs(nx,ny, k-1)
+    final_x, final_y , final_distance = dfs(x,y,k)
+    print(final_x,final_y,final_distance)
+
+    def dfs_2(x,y,r,c,k):
+        if x==r and y==c:
+            return print("도착")
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if 0 < nx <= n and 0 < ny <= m and k-1 == dist[nx-1][ny-1]:
+                answer.append(dict[i])
+                return dfs_2(nx,ny,r,c,k-1)
+
+    dfs_2(final_x,final_y,r,c,final_distance)
+
+
+    return answer
+#print(solution(3,4,2,3,3,1,5))
+print(solution(10,10,1,1,10,10,18))
