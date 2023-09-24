@@ -43,3 +43,4 @@ def solution(n, m, x, y, r, c, k):
     return ''.join(answer)
 #print(solution(3,4,2,3,3,1,5))
 print(solution(10,10,1,1,10,10,18))
+print(solution(10,10,1,1,10,10,4))
