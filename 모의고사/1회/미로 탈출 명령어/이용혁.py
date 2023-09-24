@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(2500)
+sys.setrecursionlimit(2506)
 def solution(n, m, x, y, r, c, k):
     if (k - (abs(x-r) + abs(y-c))) % 2:
         return "impossible"
@@ -14,33 +14,28 @@ def solution(n, m, x, y, r, c, k):
     dy = [0,-1,1,0]
     dict = {0:'d',1:'l',2:'r',3:'u'} # debugging 용
     answer  = []
-    def dfs(x,y, k):
+    def dfs(x,y,r,c,k):
         # 만약 남은 거리가 남은 k와 같다면 종점으로 돌아오기 위해 멈춘다. 
-        if dist[x-1][y-1] == k:
-            print("돌아온다")
-            return x, y, k
+        if x==r and y==c and k==0:
+            return
         for i in range(4):
             ny = y + dy[i]
             nx = x + dx[i]
-            if 0 < nx <= n and 0 < ny <= m:
+        
+            if nx<=0 or nx > n or  ny<=0 or ny > m:
+                continue
+            elif dist[x-1][y-1] < k:
                 answer.append(dict[i])
-                return dfs( nx,ny, k-1)
-    final_x, final_y , final_distance = dfs(x,y,k)
-    print(final_x,final_y,final_distance)
-
-    def dfs_2(x,y,r,c,k): # 만약 남은거리가 k와 같다면 우선순위에 따라서 돌아온다. d,l,r,u
-        if x==r and y==c:
-            return print("도착")
-        for i in range(4):
-            ny = y + dy[i]
-            nx = x + dx[i]
-            if 0 < nx <= n and 0 < ny <= m and k-1 == dist[nx-1][ny-1]:
+                return dfs(nx,ny,r,c, k-1)
+            elif dist[x-1][y-1] == k and dist[nx-1][ny-1] == k-1:
                 answer.append(dict[i])
-                return dfs_2(nx,ny,r,c,k-1)
+                return dfs(nx,ny,r,c, k-1)
 
-    dfs_2(final_x,final_y,r,c,final_distance)
+               
+    dfs(x,y,r,c,k)
 
     return ''.join(answer)
+
 #print(solution(3,4,2,3,3,1,5))
 print(solution(10,10,1,1,10,10,18))
 print(solution(10,10,1,1,10,10,4))
