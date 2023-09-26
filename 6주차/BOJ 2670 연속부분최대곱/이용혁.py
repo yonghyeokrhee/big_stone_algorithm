@@ -8,6 +8,6 @@ for _ in range(n):
 dp = [0] * n
 dp[0] = arr[0]
 for i in range(1,n):
-    dp[i] = round(max(dp[i-1], 1) * arr[i],3)
+    dp[i] = max(dp[i-1], 1) * arr[i]
 print(dp)
-print(max(dp))
+print('%.3f' % max(dp))
