@@ -29,7 +29,6 @@ def solution(info, edges):
             if info[there] and not status:
                 cnt_wolf -= 1
 
-
     flag = True
     while flag:
         prev = cnt_lamb
