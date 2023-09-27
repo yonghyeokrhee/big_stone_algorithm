@@ -2,28 +2,33 @@ import copy
 
 check = [False]*3 
 maxNum = 0
+initNums = []
+initSymbols = [] 
+
+def initialize(expression):
+    
+    str = ''
+    
+    
+    for c in expression:
+        if c == '*' or c == '+' or c == '-':
+            initNums.append(int(str))
+            str = ''
+            initSymbols.append(c) 
+        else:
+            str += c 
+            
+            
+    initNums.append(int(str))
+    
 
 
 def getSum(expression, choose):
     
     global maxNum 
     
-    nums = [] 
-    symbols = []
-    str = ''
-    
-    for c in expression:
-        if c == '*' or c == '+' or c == '-':
-            nums.append(int(str))
-            str = ''
-            symbols.append(c) 
-        else:
-            str += c 
-            
-            
-    nums.append(int(str))
-            
-            
+    nums = copy.deepcopy(initNums)
+    symbols = copy.deepcopy(initSymbols)
                     
     for i in range(0, 3): 
         
@@ -88,7 +93,7 @@ def dfs(expression, choose):
 def solution(expression):
     answer = 0
     choose = []
+    initialize(expression)
     dfs(expression, choose)
     answer = maxNum 
     return answer
-    
