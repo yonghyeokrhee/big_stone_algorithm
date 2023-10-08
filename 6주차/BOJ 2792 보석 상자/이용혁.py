@@ -1,17 +1,20 @@
-from itertools import combinations_with_replacement
-from collections import Counter
-#조합 문제
-
+ret = 10e18
 boy, lux = map(int,input().split())
 arr = [int(input()) for _ in range(lux)]
-answer_min = int(10e9)
-for i in combinations_with_replacement(range(lux),boy):
-    counter = Counter(i)
-    if len(counter.keys())<lux:
-        continue
-    jealous_mx=0
-    for k,l in zip(counter.keys(),arr):
-        argmax = l//counter[k] if l%counter[k] ==0 else l//counter[k] + 1
-        jealous_mx = max(jealous_mx, argmax)
-    answer_min = min(answer_min,jealous_mx)
-print(answer_min)
+
+def check(mid):
+    num = 0
+    for i in range(lux):
+        num += arr[i] / mid + 1 if arr[i] % mid else arr[i] /mid
+    return boy >= num
+
+lo = 1
+hi = max(arr)
+while lo <= hi:
+    mid = int((lo + hi) /2) # c++에서 그대로 옮기면서 실수가 있었던 부분
+    if check(mid):
+        ret = min(ret,mid)
+        hi = mid -1
+    else:
+        lo = mid + 1
+print(int(ret)) # c++에서 그대로 옮기면서 실수가 있었던 부분 (파이썬은 정수타입 강제가 없어므로 int 처리 필수)
