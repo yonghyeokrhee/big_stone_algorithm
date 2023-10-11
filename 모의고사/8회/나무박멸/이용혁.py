@@ -9,7 +9,7 @@ answer = 0
 # 성장
 
 def count_something(x, y, some):
-    some = 0
+    cnt = 0
     for i in range(4):
         ny = y + dy[i]
         nx = x + dx[i]
@@ -17,11 +17,11 @@ def count_something(x, y, some):
             continue
         if some == 'free':
             if arr[ny][nx] == 0:
-                some += 1
+                cnt += 1
         elif some == 'tree':
             if arr[ny][nx] > 0:
-                some +=1
-    return some
+                cnt +=1
+    return cnt
 
 
 def grow(arr):
