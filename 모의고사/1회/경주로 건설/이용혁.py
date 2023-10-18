@@ -1,34 +1,35 @@
 from collections import deque
 def solution(board):
-    n = len(board)
-    init = [[0,0,0,0],[0,0,0,1]] # 내려가는 방향과 오른쪽으로 가는 방향 두 가지를 초기값으로.
-    end = [len(board)-1, len(board)-1]
-    # array는 4차원으로 관리한다. (x,y,코너 수, 진행방향(어디서 왔는가)) <- 카카오 기출 풀이
-    space = [[[[[0] for _ in range(n)] for _ in range(n)] for _ in range(n**n)] for _ in range(4)]
-    answer = 0
-    q = deque()
-    q.extend(init)
+    for b in board:
+        print(b)
+    #[코너개수][y좌표][x좌표][수평수직]
+    v = [[[[0]*2 for _ in range(len(board))] for _ in range(len(board))] for _ in range(len(board)**2+1)] # 코너의 상태(개수)에 대하여 가장 먼저 접근한다.
     dy = [1,0,-1,0]
     dx = [0,1,0,-1]
-    while q:
-        y, x, coners, direction = q.popleft()
-        for i in []:
-            # i = 0 down
-            # i = 1 right
-            # i = 2 up
-            # i = 3 left
-            ny = y + dy[i]
-            nx = x + dx[i]
-            if board[ny][nx] == 0 and  0 <= ny < len(board) and 0<= nx < len(board): # 진행한다.
-                # 직진
-                if i == direction:
-                    board[ny][nx][coners][i] =
-                # 좌회전
-                # 우회전
-                cost = dist*100
-                space[ny][nx][dist][i] = cost
+    hvs = [1,0,0,1] # 1은 수직, 0은 수평이동
+    # 코너의 개수를 추가적인 상태값으로 하여 BFS를 만들 수 있을까? 코너의 기록, 현재 방향과 다음 방향이 꺽어질 때 코너라고 한다.
+    def bfs()->int:
+        q = deque()
+        q.extend([[0,0,0,0],[0,0,0,1]]) # 처음 시작은 오른쪽으로 아래로 두군데로 갈 수 있기 때문에 두 개의 queue로 시작한다.
+        v[0][0][0][0] = 1
+        v[0][0][0][1] = 1
+        while q:
+            corner, y,x,hv = q.popleft()
+            for i in range(4):
+                # 수평 i = 1,2 , 수직 i = 0,3
+                ny = y + dy[i]
+                nx = x + dx[i]
+                new_corner = corner + 1 if hv != hvs[i] else corner
+                if ny < 0 or nx < 0 or ny >=len(board) or nx >= len(board) or v[new_corner][ny][nx][hvs[i]] or board[ny][nx]:
+                    continue
+                q.append([new_corner, ny,nx,hvs[i]])
+                print(f"number of corner is: ", new_corner)
+                print(f"moving to {ny},{nx}")
+                v[new_corner][ny][nx][hvs[i]] = v[corner][y][x][hv] + 1 # 한칸 이동했으니까 거리를 더해줌.
+        return v[len(board)-1][len(board)-1] -1 # 도착점 기준 누적 거리
+    answer = bfs()
+    return answer * 100 # 모든 거리가 100원의 비용이 든다고 하면?
 
-    return answer
+print(solution([[0,0],[0,0]])) # 코너는 한개 밖에 나올 수가 없다.
 
-
-solution([[0,0,0],[0,0,0],[0,0,0]])
+#print(solution([[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0],[0,0,0,0,1,0,0,0],[0,0,0,1,0,0,0,1],[0,0,1,0,0,0,1,0],[0,1,0,0,0,1,0,0],[1,0,0,0,0,0,0,0]]))
